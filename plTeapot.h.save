@@ -1,0 +1,6 @@
+#define EQUAL "EQUAL"
+#define
+#define PLUS "PLUS"
+#define MINUS "MINUS"
+#define MULTIPLY "MULTIPLY"
+#define DIVIDE "DIVIDE"
