@@ -2,63 +2,65 @@
        #include<stdio.h>
        #include<math.h>
        
-        void yyerror(char *);
-    	int yylex(void);
-           int select();
-           double arrangePoint();
-           int checkValidity();
+       void yyerror(char *);
+       int yylex(void);
+       double arrangePoint();
+       int checkValidity();
 %}
 
-%union				//to define possible symbol types
-{ double p;}
-%token<p>num
-%token SIN COS TAN LOG EXP SQRT POINT demofunc
+%union				//define possible symbol type
+{ double val;}
+%token<val>num
+%token SIN COS TAN LN EXP SQRT PI    //define tokens
+%token SUM SUBSTRACT MULTIPLY DIVIDE EQUAL
+%token POINT MINUS_SIGN
 
-/*Defining the Precedence and Associativity*/
- %left '+''-'			//lowest precedence
-%left '*''/'			//highest precedenc
+/*Defining the Precedence*/
+%left '+' '-' SUM SUBSTRACT		//lowest precedence
+%left '*' '/'	MULTIPLY DIVIDE	//highest precedence
 %nonassoc uminu			//no associativity
-%type<p>expr			//Sets the type for non - terminal
+%type<val>expr			//Sets the type for non-terminal
 %%
 
-/* for storing the answer */
-ss: expr {printf("\n Answer = %g\n",$1);}
+/* Keeping the Answer */
+ss: expr {printf("\n Memorized Answer = %g\n",$1);}
 
-/* for binary arithmatic operators */
-expr :    expr'+'expr      { $$=$1+$3; }
+/* Mathematical Operations */
+expr :  expr'+'expr      { $$=$1+$3; }
+       |expr SUM expr       { $$=$1+$3; }
        |expr'-'expr      { $$=$1-$3; }
+       |expr SUBSTRACT expr       { $$=$1-$3;}
        |expr'*'expr      { $$=$1*$3; }
-       |expr'/'expr      {
-                               if($3==0)
-                               {
-                                       printf("Divide By Zero");
-//exit(0);
-                               }
-                               else $$=$1/$3;
-                       }
+       |expr MULTIPLY expr      { $$=$1*$3; }
+       
+       |expr'/'expr  {if($3==0){
+                            printf("Divide By Zero");
+                            exit(0);
+                            }else $$=$1/$3;
+                     }
+       |expr DIVIDE expr  {if($3==0){
+                            printf("Divide By Zero");
+                            exit(0);
+                            }else $$=$1/$3;
+                     }
        |expr'='expr     {$$=checkValidity($1,$3);}
+       |expr EQUAL expr     {$$=checkValidity($1,$3);}
        |'-'expr         {$$=-$2;}
-       |'minus' expr     {$$=-$2;}
+       |MINUS_SIGN expr     {$$=-$2;}
        |expr POINT expr {$$=arrangePoint($1,$3);}
        |SIN'('expr')'   {$$=sin($3);}
        |COS'('expr')'   {$$=cos($3);}
        |TAN'('expr')'   {$$=tan($3);}
-       |LOG'('expr')'   {$$=log($3);}
+       |LN'('expr')'   {$$=log($3);}
        |EXP'('expr')'  {$$=exp($3);}
        |SQRT'('expr')'  {$$=sqrt($3);}
-       |demofunc
-           {$$=select();}
+       |PI    {$$=3.14159265;}
        |num;
  	|'('expr')'      {$$=$2;}
  	
 %%
 
-/* extern FILE *yyin; */
-
-
-int select(){
-       return 68;
-}
+/*Merging two numbers if they have point*/
 double arrangePoint(double a, double b){
        float c;
        c = (float)b;
@@ -66,27 +68,28 @@ double arrangePoint(double a, double b){
        c = (float)a + c;
        return c; 
 }
+/*Controlling equality */
 int checkValidity(double a, double b){
        if(a==b){
-              printf("Expression TRUE!");
+              printf("\nExpression TRUE!\n");
               return 1;
-       }else
-              printf("Expression FALSE!");
-              return -1;
+       }else{
+              printf("\nExpression FALSE!\n");
+              }return -1;
 }
-
 
 void yyerror(s)			
-
-char *s;
-{
-       printf("ERROR");
+char *s;{
+       printf("\nERROR\n");
 }
-int main()
-{
+int main(){
+       printf("\tWelcome to Teapot Calculator\n Makes Words to Number & Proper Calculus Operations\n");
+       printf("Please Write Your Perform Operations (like foursum6, 100multiplytan(60)...etc)\n");
+
        while(1){
               yyparse();
        }
+       
 
 }
 

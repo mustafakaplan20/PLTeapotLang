@@ -49,12 +49,18 @@ extern int yydebug;
     SIN = 259,
     COS = 260,
     TAN = 261,
-    LOG = 262,
+    LN = 262,
     EXP = 263,
     SQRT = 264,
-    POINT = 265,
-    demofunc = 266,
-    uminu = 267
+    PI = 265,
+    SUM = 266,
+    SUBSTRACT = 267,
+    MULTIPLY = 268,
+    DIVIDE = 269,
+    EQUAL = 270,
+    POINT = 271,
+    MINUS_SIGN = 272,
+    uminu = 273
   };
 #endif
 /* Tokens.  */
@@ -62,22 +68,28 @@ extern int yydebug;
 #define SIN 259
 #define COS 260
 #define TAN 261
-#define LOG 262
+#define LN 262
 #define EXP 263
 #define SQRT 264
-#define POINT 265
-#define demofunc 266
-#define uminu 267
+#define PI 265
+#define SUM 266
+#define SUBSTRACT 267
+#define MULTIPLY 268
+#define DIVIDE 269
+#define EQUAL 270
+#define POINT 271
+#define MINUS_SIGN 272
+#define uminu 273
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 13 "plTeapot.y" /* yacc.c:1909  */
- double p;
+#line 12 "plTeapot.y" /* yacc.c:1909  */
+ double val;
 
-#line 81 "y.tab.h" /* yacc.c:1909  */
+#line 93 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

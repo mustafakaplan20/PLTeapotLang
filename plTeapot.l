@@ -1,26 +1,37 @@
 numbers	([0-9]+|[0-9]*\.[0-9]+)
 wordOfNumbers	(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|tewelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion)
-wordOfOperators	(equal|sum|substract|multiply|divide)
 
-
-%{	
+%{	#define PI 3.14159265
 	#include <math.h>
 	#include "y.tab.h"
-	#include "switchs.h"
+	#include "switchs.h"	//external library for comparing "String", in C there is no "String"
 %}
 
 %%
 
-{wordOfNumbers}	{yylval.p=word2number(); return num;}
-{numbers}	{yylval.p = atof(yytext); return num;}
+{wordOfNumbers}	{yylval.val=word2number(); return num;}
+{numbers}	{yylval.val = atof(yytext); return num;}
 
+
+point return POINT;
+minus return MINUS_SIGN;
+ /* Basic Mathematical Operators*/
+equal return EQUAL;
+sum return	SUM;
+substract return SUBSTRACT;
+multiply	return MULTIPLY;
+divide	return DIVIDE;
+ /* Trigonometric Operators*/
 sin return SIN;
 cos return COS;
 tan return TAN;
-log return LOG;
+ln return LN;
 sqrt return SQRT;
 exp return EXP;
-point return POINT;
+pi return PI;
+
+	/* Closing command*/
+"out" {printf("Program is closing...\n");exit(0);}
 
 [\t];
 \n	return 0;
@@ -28,7 +39,9 @@ point return POINT;
 
 
 %%
+/*Converting function */
 int word2number(){
+
 	char temp[20];
 	strcpy(temp,yytext);
 
@@ -99,3 +112,5 @@ int word2number(){
 		break;
 	}switchs_end;
 }
+
+
