@@ -1,6 +1,7 @@
-plTeapot: plTeapot.l
+plTeapot: plTeapot.l	plTeapot.y 
 	lex plTeapot.l
-	gcc -o plTeapot lex.yy.c -ll
+	yacc -d plTeapot.y
+	gcc -o plTeapot lex.yy.c y.tab.c -ll -ly -lm
 
 clean:
 	rm plTeapot lex.yy.c

@@ -1,17 +1,101 @@
-%{
-#include "plTeapot.h"
+numbers	([0-9]+|[0-9]*\.[0-9]+)
+wordOfNumbers	(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|tewelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion)
+wordOfOperators	(equal|sum|substract|multiply|divide)
+
+
+%{	
+	#include <math.h>
+	#include "y.tab.h"
+	#include "switchs.h"
 %}
 
 %%
 
-"="|equal|EQUAL   printf("%s\t",EQUAL);
-"+"|plus|PLUS printf("%s\t",PLUS);
-"-"|minus|MINUS printf("%s\t",MINUS);
-"x"|multiply|MULTIPLY printf("%s\t",MULTIPLY);
-"/"|divide|DIVIDE   printf("%s\t",DIVIDE);
-[0-9]+[0-9]*    printf("%s\t",NUMBER);
-("zero"|"one"|"two"|"three"|"four"|"five"|"six"|"seven"|"eight"|"nine"|"ten"|"eleven"|"tewelve"|"thirteen"|"fourteen"|"fifteen"|"sixteen"|"seventeen"|"eighteen"|"nineteen"|"twenty"|"thirty"|"forty"|"fifty"|"sixty"|"seventy"|"eighty"|"ninety") printf("%s\t",NUMBER);
-("thousand"|"million"|"billion"|"trillion"|"quadrillion"|"quintillion"|"sextillion"|"septillion"|"octillion"|"nonillion"|"decillion")    printf("%s\t",NUMBER);
-";" printf("\n");
+{wordOfNumbers}	{yylval.p=word2number(); return num;}
+{numbers}	{yylval.p = atof(yytext); return num;}
+
+sin return SIN;
+cos return COS;
+tan return TAN;
+log return LOG;
+sqrt return SQRT;
+exp return EXP;
+point return POINT;
+
+[\t];
+\n	return 0;
+.	return yytext[0];
+
 
 %%
+int word2number(){
+	char temp[20];
+	strcpy(temp,yytext);
+
+	switchs(temp){
+		cases("zero") return 0;
+		break;
+		cases("one") return 1;
+		break;
+		cases("two") return 2;
+		break;
+		cases("three") return 3;
+		break;
+		cases("four") return 4;
+		break;
+		cases("five") return 5;
+		break;
+		cases("six") return 6;
+		break;
+		cases("seven") return 7;
+		break;
+		cases("eight") return 8;
+		break;
+		cases("nine") return 9;
+		break;
+		cases("ten") return 10;
+		break;
+		cases("eleven") return 11;
+		break;
+		cases("twelve") return 12;
+		break;
+		cases("thirteen") return 13;
+		break;
+		cases("fourteen") return 14;
+		break;
+		cases("fifteen") return 15;
+		break;
+		cases("sixteen") return 16;
+		break;
+		cases("seventeen") return 17;
+		break;
+		cases("eighteen") return 18;
+		break;
+		cases("nineteen") return 19;
+		break;
+		cases("twenty") return 20;
+		break;
+		cases("thirty") return 30;
+		break;
+		cases("forty") return 40;
+		break;
+		cases("fifty") return 50;
+		break;
+		cases("sixty") return 60;
+		break;
+		cases("seventy") return 70;
+		break;
+		cases("eighty") return 80;
+		break;
+		cases("ninety") return 90;
+		break;
+		cases("hundred") return 100;
+		break;
+		cases("thousand") return 1000;
+		break;
+		cases("million") return 1000000;
+		break;
+		cases("billion") return 1000000000;
+		break;
+	}switchs_end;
+}
