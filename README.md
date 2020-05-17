@@ -1,27 +1,30 @@
 # Teapot Programming Language
-An advanced calculator language which takes input as strings, numbers, characters etc. to operating.
+An advanced calculator language which takes input as strings, numbers, characters etc. to operating basic and some functional mathematical usage.
 
   - Group Members: Mustafa KAPLAN, Doğukan İNCE
 
 ## Features
-
-  - Import a number/operator or both of them as string
-  - It determines types and calculate the user input(Later)!
+  - Import a number/operator or both of them as string or number.
+  - It determines types and calculate it!
+  - Teapot is a little bit strange & unordinary.
 
 ## Running the Code
 
 Teapot has own extension ".tea" it is used for special calculator.
+In UNIX just type below command. If the user want to terminate "out" command or ";" is enough.
 
 ```sh
-$   make plTeapot.l
-$   ./plTeapot < Calc.tea
+$   make
+$   ./plTeapot.tea < Input.txt
+$ /* Terminating the program -> out or ; */
+$   out
 ```
 
 ## BNF
 
-    -   <program> : “enter” <statements> “Calculate”
-    -   <statements> : <statement> | <statement> <statements>
-    -   <statement> : <variable_declaration> | <expression>
+    -   <program> : <statements> 
+    -    <statement> : <expression>
+    -    <expression> : <expression> OPERATOR <expression>
     -   <variable_declaration> : <type> <identifier> <equals> [<expression> | “null”]
     -   <type> : “String” | “Integer” | “Operator”
     -   <identifier> : [0-9]+[0-9]*
@@ -36,6 +39,5 @@ $   ./plTeapot < Calc.tea
     -   "tewelve"|"thirteen"|"fourteen"|"fifteen"|"sixteen"|"seventeen"|
     -   "eighteen"|"nineteen"|"twenty"|"thirty"|"forty"|"fifty"|
     -   "sixty"|"seventy"|"eighty"|"ninety"|"thousand"|"million"|
-    -   "billion"|"trillion"|"quadrillion"|"quintillion"|"sextillion"|
-    -   "septillion"|"octillion"|"nonillion"|"decillion”
+    -   "billion"
     -   <character> : \’[a-zA-Z]\’
